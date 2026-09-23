@@ -11,6 +11,7 @@ namespace WinFormsApp1
         private const string AdminPassword = "Campusone@123";
 
         private PictureBox picLogo;
+        private GroupBox grpLogin;
         private Label lblTitle;
         private Label lblUsername;
         private TextBox txtUsername;
@@ -28,96 +29,104 @@ namespace WinFormsApp1
         private void InitializeComponent()
         {
             this.Text = "Login - Campus One Digital Academy";
-            this.Size = new Size(500, 550);
+            this.ClientSize = new Size(520, 430);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
+            this.BackColor = Color.FromArgb(250, 247, 248);
+            this.Font = new Font("Segoe UI", 9F);
+            SetWindowIcon(this);
 
             // Title label
             lblTitle = new Label();
             lblTitle.Text = "Campus One Digital Academy";
             lblTitle.Font = new Font("Segoe UI", 16, FontStyle.Bold);
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(80, 20);
+            lblTitle.Location = new Point(103, 118);
             this.Controls.Add(lblTitle);
 
             // Logo picture box
             picLogo = new PictureBox();
-            picLogo.Size = new Size(120, 120);
-            picLogo.Location = new Point(180, 60);
+            picLogo.Size = new Size(100, 88);
+            picLogo.Location = new Point(210, 18);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
-            picLogo.BackColor = Color.LightGray;
-            // Placeholder text when no image is available.
-            picLogo.Paint += (sender, e) =>
-            {
-                if (picLogo.Image == null)
-                {
-                                    TextRenderer.DrawText(e.Graphics, "LOGO", new Font("Segoe UI", 12, FontStyle.Bold),
-                        new Rectangle(0, 0, picLogo.Width, picLogo.Height), Color.DimGray,
-                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                }
-            };
+            string logoPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "CampusOneLogo.png");
+            if (System.IO.File.Exists(logoPath))
+                picLogo.Image = Image.FromFile(logoPath);
             this.Controls.Add(picLogo);
+
+            grpLogin = new GroupBox();
+            grpLogin.Text = "Login";
+            grpLogin.Location = new Point(90, 170);
+            grpLogin.Size = new Size(340, 170);
+            this.Controls.Add(grpLogin);
 
             // Username label
             lblUsername = new Label();
-            lblUsername.Text = "Username:";
+            lblUsername.Text = "Username";
             lblUsername.AutoSize = true;
-            lblUsername.Location = new Point(80, 210);
-            this.Controls.Add(lblUsername);
+            lblUsername.Location = new Point(36, 45);
+            grpLogin.Controls.Add(lblUsername);
 
             // Username text box
             txtUsername = new TextBox();
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(300, 25);
-            txtUsername.Location = new Point(80, 235);
-            this.Controls.Add(txtUsername);
+            txtUsername.Size = new Size(185, 27);
+            txtUsername.Location = new Point(120, 40);
+            grpLogin.Controls.Add(txtUsername);
 
             // Password label
             lblPassword = new Label();
-            lblPassword.Text = "Password:";
+            lblPassword.Text = "Password";
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(80, 280);
-            this.Controls.Add(lblPassword);
+            lblPassword.Location = new Point(36, 84);
+            grpLogin.Controls.Add(lblPassword);
 
             // Password text box
             txtPassword = new TextBox();
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(300, 25);
-            txtPassword.Location = new Point(80, 305);
+            txtPassword.Size = new Size(185, 27);
+            txtPassword.Location = new Point(120, 79);
             txtPassword.PasswordChar = '*';
             txtPassword.UseSystemPasswordChar = true;
-            this.Controls.Add(txtPassword);
+            grpLogin.Controls.Add(txtPassword);
 
             // Login button
             btnLogin = new Button();
             btnLogin.Name = "btnLogin";
             btnLogin.Text = "Login";
-            btnLogin.Size = new Size(90, 35);
-            btnLogin.Location = new Point(80, 380);
+            btnLogin.Size = new Size(70, 30);
+            btnLogin.Location = new Point(235, 123);
             btnLogin.Click += new EventHandler(this.btnLogin_Click);
-            this.Controls.Add(btnLogin);
+            grpLogin.Controls.Add(btnLogin);
 
             // Clear button
             btnClear = new Button();
             btnClear.Name = "btnClear";
             btnClear.Text = "Clear";
-            btnClear.Size = new Size(90, 35);
-            btnClear.Location = new Point(185, 380);
+            btnClear.Size = new Size(70, 30);
+            btnClear.Location = new Point(36, 123);
             btnClear.Click += new EventHandler(this.btnClear_Click);
-            this.Controls.Add(btnClear);
+            grpLogin.Controls.Add(btnClear);
 
             // Exit button
             btnExit = new Button();
             btnExit.Name = "btnExit";
             btnExit.Text = "Exit";
-            btnExit.Size = new Size(90, 35);
-            btnExit.Location = new Point(290, 380);
+            btnExit.Size = new Size(70, 30);
+            btnExit.Location = new Point(12, 385);
             btnExit.Click += new EventHandler(this.btnExit_Click);
             this.Controls.Add(btnExit);
 
             // Set initial focus to username field.
             this.Load += (sender, e) => txtUsername.Focus();
+        }
+
+        private static void SetWindowIcon(Form form)
+        {
+            string iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "CampusOneLogo.ico");
+            if (System.IO.File.Exists(iconPath))
+                form.Icon = new Icon(iconPath);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
